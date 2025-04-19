@@ -45,7 +45,7 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: http://api:8000
-      REACT_APP_KEYCLOAK_URL: http://localhost:8080
+      REACT_APP_KEYCLOAK_URL: http://keycloak:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
       REACT_APP_KEYCLOAK_ALGORITHM: S256
@@ -61,7 +61,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      API_KEYCLOAK_URL: http://localhost:8080
+      API_KEYCLOAK_URL: http://keycloak:8080
       API_KEYCLOAK_REALM: reports-realm
       API_KEYCLOAK_ALGORITHM: RS256
       API_REPORT_KEYCLOAK_ROLE: prothetic_user
