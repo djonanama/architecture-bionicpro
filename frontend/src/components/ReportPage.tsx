@@ -22,7 +22,17 @@ const ReportPage: React.FC = () => {
         }
       });
 
-      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'report.json';
+      a.click();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -49,13 +59,25 @@ const ReportPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-8 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Usage Reports</h1>
-        
+      <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Usage Reports</h1>
+          <button
+            onClick={() => keycloak.logout()}
+            className="text-sm text-red-500 hover:underline"
+          >
+            Logout
+          </button>
+        </div>
+
+        <p className="mb-4 text-gray-600">
+          Logged in as: <strong>{keycloak.tokenParsed?.preferred_username}</strong>
+        </p>
+
         <button
           onClick={downloadReport}
           disabled={loading}
-          className={`px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${
+          className={`w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${
             loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
